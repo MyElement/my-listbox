@@ -44,7 +44,7 @@
     </style>
     <ul class="list-group" id="list">
       <template is="dom-repeat" items="[[items]]">
-        <li class="list-group-item" on-click="selectItem">[[item.label]]</li>
+        <li class$="[[autoSelected(item.name,selected)]]" on-click="selectItem">[[item.label]]</li>
       </template>
     </ul>
   </template>
@@ -81,20 +81,12 @@
             })
         }
       }
-      // _checkSeleted(select,name){
-      //   return select == name;
-      // }
       selectItem(e){
         this.selected = e.model.item.name;
-        this._clearClass()
-        e.currentTarget.className += " active";
-        
       }
-      _clearClass(){
-        var element = this.$.list.children;
-        for (var index = 0; index < element.length; index++) {
-          element[index].className = element[index].className.replace(" active","");
-        }
+      autoSelected(name,select){
+        if(name == select) return 'list-group-item active';
+        else return 'list-group-item'
       }
     }
 
