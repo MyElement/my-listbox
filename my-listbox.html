@@ -30,7 +30,7 @@
         background-color: var(--bg-color-light);
         cursor: pointer;
       }
-      .list-group-item[Active]{
+      .active,.active:hover{
         background-color: var(--bg-color-primary);
         color: var(--bg-color-white);
       }
@@ -42,9 +42,9 @@
         cursor:no-drop;
       }
     </style>
-    <ul class="list-group">
+    <ul class="list-group" id="list">
       <template is="dom-repeat" items="[[items]]">
-        <li class="list-group-item" Active$="[[_checkSeleted(selected,item.name)]]" on-click="selectItem">[[item.label]]</li>
+        <li class="list-group-item" on-click="selectItem">[[item.label]]</li>
       </template>
     </ul>
   </template>
@@ -81,11 +81,20 @@
             })
         }
       }
-      _checkSeleted(select,name){
-        return select == name;
-      }
+      // _checkSeleted(select,name){
+      //   return select == name;
+      // }
       selectItem(e){
         this.selected = e.model.item.name;
+        this._clearClass()
+        e.currentTarget.className += " active";
+        
+      }
+      _clearClass(){
+        var element = this.$.list.children;
+        for (var index = 0; index < element.length; index++) {
+          element[index].className = element[index].className.replace(" active","");
+        }
       }
     }
 
